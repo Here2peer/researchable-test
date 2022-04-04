@@ -3,7 +3,7 @@ import './App.css';
 import ApexCharts from 'apexcharts'
 
 
-class HammingInput extends React.Component<{}, {hammingArray: Array<any>, stringArray: Array<string>}> {
+class HammingInput extends React.Component<{}, {stringArray: Array<string>}> {
     value: string;
     hidden = true;
     index = 0;
@@ -16,7 +16,6 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>, string
         this.onChange = this.onChange.bind(this);
         this.value = "";
         this.state = {
-            hammingArray: [],
             stringArray: []
         }
     }
