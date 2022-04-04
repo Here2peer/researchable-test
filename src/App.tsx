@@ -83,6 +83,7 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
                 </p>
                 <br/>
                 <table>
+                    <tbody>
                     <tr>
                         <th>String A</th>
                         <th>String B</th>
@@ -97,6 +98,7 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
                             </tr>
 
                             ))}
+                    </tbody>
                 </table>
             </fieldset>
 
