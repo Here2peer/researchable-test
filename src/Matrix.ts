@@ -1,12 +1,10 @@
 
 export class Matrix {
-    matrix: Array<Array<String>>
+    matrix: String[][];
     index: number = 0;
 
     constructor() {
-        this.matrix = [
-            []
-        ];
+        this.matrix = [];
     }
 
     addEdge(edge: string) {
@@ -20,11 +18,13 @@ export class Matrix {
 
     randomFill(amount: number) {
         for (let i = 0; i < amount; i++) {
-            for (let x = 0; x < 5; i++) {
+            this.matrix[i] = [];
+            for (let x = 0; x < amount; x++) {
                 let entry = Math.floor(Math.random() * (99999 - 10000 + 1) + 10000)
-                this.matrix[i].concat(String(entry));
+                this.matrix[i][x] = String(entry);
             }
         }
+        this.printMatrix();
     }
 
     getEntry(x: number, y: number) {
@@ -32,8 +32,6 @@ export class Matrix {
     }
 
     printMatrix() {
-        for (let i = 0; i < this.matrix.length; i++) {
-            console.log(this.matrix[i])
-        }
+        console.log(this.matrix)
     }
 }

@@ -1,40 +1,29 @@
 import React from 'react';
 import './App.css';
-import {Matrix} from "./Matrix";
+import ApexCharts from 'apexcharts'
 
 
-class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
+class HammingInput extends React.Component<{}, {hammingArray: Array<any>, stringArray: Array<string>}> {
     value: string;
-    stringArray: Array<string>;
     hidden = true;
     index = 0;
-    matrix : Matrix;
+    chart: ApexCharts | undefined
 
-    data = [
-        {
-            label: 'Visualisation',
-            data: [{
-
-            }]
-        }
-    ]
 
     constructor(props: any) {
         super(props);
         this.keyDown = this.keyDown.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.matrix = new Matrix();
         this.value = "";
-        this.stringArray = [];
         this.state = {
-            hammingArray: []
+            hammingArray: [],
+            stringArray: []
         }
     }
 
     keyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.keyCode === 13) {
             if (this.value.length === 5) {
-                this.stringArray.push(this.value);
                 this.hidden = true;
                 this.updateTable()
             } else {
@@ -43,13 +32,44 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
         }
     }
 
+    renderChart() {
+        if(this.chart?.paper() !== undefined) {
+            this.chart.destroy();
+        }
+        this.chart = new ApexCharts(document.querySelector("#chart"), this.createOptions());
+        this.chart.render();
+    }
+
     updateTable() {
-        if (this.stringArray.length > 1) {
-            let test = this.calcHamming(this.stringArray[this.stringArray.length -2], this.stringArray[this.stringArray.length-1])
-            this.setState({
-                hammingArray: this.state.hammingArray.concat([test])
+        this.setState({
+            stringArray: this.state.stringArray.concat(this.value)
+        })
+    }
+
+    createOptions() {
+        let series = []
+        for (let x = 0; x < this.state.stringArray.length; x++) {
+            let data = []
+            for (let y = 0; y < this.state.stringArray.length; y++) {
+                data.push({
+                    x: this.state.stringArray[y],
+                    y: this.calcHamming(this.state.stringArray[y], this.state.stringArray[x])[2]
+                })
+            }
+            series.push({
+                name: this.state.stringArray[x],
+                data: data
             })
         }
+        return {
+            chart: {
+                type: "heatmap",
+                toolbar: {
+                    show: false
+                },
+            },
+            series: series
+        };
     }
 
     onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -79,27 +99,26 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
                     Press enter to add digits.
                 </p>
                 <p>
-                    <button onClick={() => this.matrix.randomFill(10)}>Random fill matrix </button>
+                    <button onClick={() => this.renderChart()}>Generate heatmap </button>
                 </p>
                 <br/>
                 <table>
                     <tbody>
                     <tr>
-                        <th>String A</th>
-                        <th>String B</th>
-                        <th>Hemming distance</th>
+                        <th>Array's with strings:</th>
                     </tr>
                         {
-                            this.state.hammingArray.map(entry => (
+                            this.state.stringArray.map(entry => (
                             <tr>
-                                <td>{entry[0]}</td>
-                                <td>{entry[1]}</td>
-                                <td>{entry[2]}</td>
+                                <td>{entry}</td>
                             </tr>
 
                             ))}
                     </tbody>
                 </table>
+                <div id="chart">
+
+                </div>
             </fieldset>
 
         );
