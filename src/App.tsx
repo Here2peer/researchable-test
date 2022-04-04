@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import {Matrix} from "./Matrix";
 
 
 class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
@@ -7,6 +8,7 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
     stringArray: Array<string>;
     hidden = true;
     index = 0;
+    matrix : Matrix;
 
     data = [
         {
@@ -21,6 +23,7 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
         super(props);
         this.keyDown = this.keyDown.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.matrix = new Matrix();
         this.value = "";
         this.stringArray = [];
         this.state = {
@@ -75,12 +78,15 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>}> {
                 <p>
                     Press enter to add digits.
                 </p>
+                <p>
+                    <button onClick={() => this.matrix.randomFill(10)}>Random fill matrix </button>
+                </p>
                 <br/>
                 <table>
                     <tr>
-                        <td>String A</td>
-                        <td>String B</td>
-                        <td>Hemming distance</td>
+                        <th>String A</th>
+                        <th>String B</th>
+                        <th>Hemming distance</th>
                     </tr>
                         {
                             this.state.hammingArray.map(entry => (
