@@ -53,7 +53,7 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>, string
             for (let y = 0; y < this.state.stringArray.length; y++) {
                 data.push({
                     x: this.state.stringArray[y],
-                    y: this.calcHamming(this.state.stringArray[y], this.state.stringArray[x])[2]
+                    y: this.calcHamming(this.state.stringArray[y], this.state.stringArray[x])
                 })
             }
             series.push({
@@ -83,7 +83,7 @@ class HammingInput extends React.Component<{}, {hammingArray: Array<any>, string
                 distance += 1;
             }
         }
-        return [a, b, distance]
+        return distance
     }
 
     render() {
