@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ApexCharts from 'apexcharts'
+import {createRoot} from "react-dom/client";
 
 
 class HammingInput extends React.Component<{}, {stringArray: Array<string>}> {
@@ -12,6 +13,7 @@ class HammingInput extends React.Component<{}, {stringArray: Array<string>}> {
 
     constructor(props: any) {
         super(props);
+
         this.keyDown = this.keyDown.bind(this);
         this.onChange = this.onChange.bind(this);
         this.value = "";
@@ -27,6 +29,7 @@ class HammingInput extends React.Component<{}, {stringArray: Array<string>}> {
                 this.updateTable()
             } else {
                 this.hidden = false;
+                console.log(this.hidden)
             }
         }
     }
